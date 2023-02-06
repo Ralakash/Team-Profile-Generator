@@ -1,21 +1,59 @@
 const inquirer = require('inquirer');
-const path = require('path');
-const fs = require('fs');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
-const htmlGenerator = require('./utils/htmlGenerator');
+const generateHTML = require('./utils/htmlGenerator');
 
-const menuQuestions = [
+var teamRoster = [];
+
+const menuQuestions = () => {
 	// Build a menu
 	//   prompt to add an engineer or intern at the end or to finish building team.
-	{
-		type: 'list',
-		name: 'menu',
-		choices: ['Add Engineer', 'Add Intern', 'Finish Team'],
-		message: 'Please select an option:',
-	},
-];
+	inquirer
+		.prompt([
+			{
+				type: 'list',
+				name: 'menu',
+				choices: ['Add Engineer', 'Add Intern', 'Finish Team'],
+				message: 'Please select an option:',
+			},
+		])
+		.then((answer) => {
+			console.log(answer);
+			switch (answer.menu) {
+				case 'Add Engineer':
+					console.log('you selected engineer');
+					inquirer
+						.prompt(buildEngineer)
+						.then((answers) => {
+							let engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+							console.log(engineer);
+							teamRoster.push(engineer);
+						})
+						.then(() => {
+							menuQuestions();
+						});
+					break;
+				case 'Add Intern':
+					inquirer
+						.prompt(buildIntern)
+						.then((answers) => {
+							let intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+							teamRoster.push(intern);
+						})
+						.then(() => {
+							menuQuestions();
+						});
+					break;
+				case 'Finish Team':
+					console.log(teamRoster);
+					generateHTML(teamRoster);
+					break;
+				default:
+					console.log('you suck');
+			}
+		});
+};
 
 const buildManager = [
 	// WHEN I start the application
@@ -91,34 +129,22 @@ const buildIntern = [
 	},
 ];
 
-const menuFunction = () => {
-	var teamRoster = [];
-	if (teamRoster === []) {
-		inquirer.prompt(buildManager).then((answers) => {
-			let manager = {
-				name: answers.name,
-				id: answers.id,
-				email: answers.email,
-				officeNumber: answers.officeNum,
-			};
+const createNewTeam = () => {
+	inquirer
+		.prompt(buildManager)
+		.then((answers) => {
+			let manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
 			teamRoster.push(manager);
+			console.log(manager.getRole());
 			console.log(teamRoster);
+		})
+		.then(() => {
+			menuQuestions();
 		});
-	} else {
-		switch (answer) {
-			case 'Add Engineer':
-				inquirer.prompt(buildEngineer).then((answers) => {});
-				break;
-			case 'Add Intern':
-				inquirer.prompt(buildIntern).then((answers) => {});
-				break;
-			case 'Finish Team':
-		}
-	}
 };
 
 function init() {
-	menuFunction();
+	createNewTeam();
 }
 
 init();
