@@ -1,23 +1,27 @@
 {
-  "name": "team-profile-generator",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Ralakash/Team-Profile-Generator.git"
-  },
-  "author": "Shawn Karalash",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Ralakash/Team-Profile-Generator/issues"
-  },
-  "homepage": "https://github.com/Ralakash/Team-Profile-Generator#readme",
-  "dependencies": {
-    "inquirer": "^8.2.5"
-  }
+	"name": "team-profile-generator",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js",
+		"test": "jest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Ralakash/Team-Profile-Generator.git"
+	},
+	"author": "Shawn Karalash",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Ralakash/Team-Profile-Generator/issues"
+	},
+	"homepage": "https://github.com/Ralakash/Team-Profile-Generator#readme",
+	"dependencies": {
+		"inquirer": "^8.2.5"
+	},
+	"devDependencies": {
+		"jest": "^29.4.2"
+	}
 }
